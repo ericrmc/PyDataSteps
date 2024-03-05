@@ -1,0 +1,58 @@
+settings:
+  base_url: https://example.com/api
+  headers:
+    Authorization: Bearer YOUR_TOKEN_HERE
+  state: {}
+
+steps:
+  - name: Fetch Data
+    type: api_call
+    properties:
+      method: GET
+      path: /data
+    output: raw_data
+
+  - name: Check Status Code
+    type: switch
+    properties:
+      input: raw_data.status_code
+      actions:
+        200:
+          action: continue
+        400:
+          action: run_step
+          run_step:
+            name: Log Error
+            parameters:
+              - raw_data.id
+        default:
+          action: break
+          
+  - name: Parse IDs
+    type: parse_json
+    properties:
+      input: raw_data.content
+      jsonpath: $.results[*].id
+    output: result_item_ids
+
+  - name: Fetch Details
+    type: api_call
+    properties:
+      method: GET
+      path: /details/{id}
+      loop_over: result_item_ids
+    output: detailed_data
+
+  - name: Save Data
+    type: save_file
+    properties:
+      filename: detailed_data.json
+      input: detailed_data
+
+  - name: Log Error
+    type: update_state
+    properties:
+      input: parameter  # This will be replaced dynamically
+      output: errors
+      update_type: append  # How the input is added to the state
+

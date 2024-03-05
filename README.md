@@ -1,6 +1,6 @@
 # PyDataSteps
 ## Overview
-This repository introduces the Simple Workflow Executor, a tool designed to simplify the creation, management, and execution of data-fetching workflows. This tool is especially suited for scenarios that do not require the complexities of serverless compute platforms or containerized applications, such as AWS Step Functions and Microsoft Logic Apps.
+This repository introduces PyDataSteps, a tool designed to simplify the creation, management, and execution of data-fetching workflows. This tool is especially suited for scenarios that do not require the complexities of serverless compute platforms or containerized applications, such as AWS Step Functions and Microsoft Logic Apps.
 
 The need for this tool arises from common issues faced in data integration and automation tasks:
 
